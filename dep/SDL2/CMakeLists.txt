@@ -1535,3 +1535,12 @@ configure_file(
 
 add_custom_target(uninstall
     COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
+
+#### Add TTF module ####
+
+file(GLOB SDL2TTF_SOURCES ${SDL2_SOURCE_DIR}/src/ttf/*.c)
+file(GLOB SDL2TTF_HEADERS ${SDL2_SOURCE_DIR}/include/SDL_ttf.h)
+
+add_library(SDL2TTF STATIC ${SDL2TTF_SOURCES} ${SDL2_SOURCE_DIR} ${SDL2TTF_HEADERS})
+
+target_include_directories(SDL2TTF PUBLIC ${CMAKE_SOURCE_DIR}/dep/freetype/include)
