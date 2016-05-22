@@ -31,10 +31,10 @@
 
 /* * * * * 2D point * * * * */
 struct pt {
-    double x, y;
+    int x, y;
 };
 
-inline pt fill_coord_2D(double x, double y) { pt a; a.x = x, a.y = y; }
+inline pt fill_coord_2D(int x, int y) { pt a; a.x = x, a.y = y; return a; }
 
 /* * * * * 3D Vector * * * * */
 struct Vector { 
@@ -76,5 +76,11 @@ struct Intersection
 };
 
 struct Polygon { std::vector<Point> coords; bool filled = true; };  //base closed surfaces, should be 
+
+/* * * * * Others Functions * * * * */
+inline int min(int i, int j) { return i < j ? i : j; }
+inline int max(int i, int j) { return i > j ? i : j; }
+inline int min(int i, int j, int k) { return min(i, min(j, k)); }
+inline int max(int i, int j, int k) { return max(i, max(j, k)); }
 
 #endif

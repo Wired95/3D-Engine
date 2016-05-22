@@ -527,11 +527,11 @@ int main(int argc, char *argv[])
 }
 
 #else /* HAVE_OPENGL */
-
+/*
 int main(int argc, char *argv[])
 {
     printf("No OpenGL support on this system\n");
     return 1;
-}
+}*/
 
 #endif /* HAVE_OPENGL */
