@@ -39,7 +39,7 @@
 class Draws
 {
 public:
-    Draws(int w, int h);    //initialize a new window
+    Draws(int w = 640, int h = 480);    //initialize a new window
     ~Draws();
 
     int GetWidth() { return WIDTH; }
@@ -70,6 +70,8 @@ public:
 
     void test();
 
+    static size_t OpenedWindow() { return count; }
+
 private:
     int WIDTH, HEIGHT;
 
@@ -82,6 +84,8 @@ private:
                                     if (x >= WIDTH) return false; 
                                     if (y<0) return false; 
                                     if (y >= HEIGHT) return false; return true; }
+
+    static size_t count;
 };
 
 enum colors {

@@ -22,9 +22,13 @@
 
 #include "Draws.h"
 
+size_t Draws::count = 1;
+
 Draws::Draws(int w, int h) : WIDTH(w), HEIGHT(h), m_auto_disp(true)
 {
-    Window = SDL_CreateWindow("3D-Engine", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
+    char title[225];
+    sprintf(title, "3D-Engine : Window %d", count);
+    Window = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
     if (!Window) {
         fprintf(stderr, "Couldn't create a new window %s\n", SDL_GetError());
         exit(1);
@@ -35,7 +39,7 @@ Draws::Draws(int w, int h) : WIDTH(w), HEIGHT(h), m_auto_disp(true)
         fprintf(stdout, "Couldn't build a new renderer (%s)\n", SDL_GetError());
         exit(1);
     }
-
+    count++;
     UpdateWindow();
 }
 
@@ -43,6 +47,7 @@ Draws::~Draws()
 {
     SDL_DestroyWindow(Window);
     SDL_DestroyRenderer(Renderer);
+    count--;
 }
 
 void Draws::disp_txt(char *txt, int size, pt p, Uint32 color, char *font_name, bool aliased)
