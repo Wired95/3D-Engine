@@ -43,6 +43,11 @@ Camera::Camera(double x, double y, double z, float v, float h) :
     m_pos_x(x), m_pos_y(y), m_pos_z(z), m_rad_v(v),  m_rad_h(h), 
     m_fov_v(float(FOV_DEFAULT_V)), m_fov_h(float(FOV_DEFAULT_H)) { }
 
+Camera::Camera(Camera& c) :
+    m_pos_x(c.GetCoordX()), m_pos_y(c.GetCoordY()), m_pos_z(c.GetCoordY()),
+    m_rad_v(c.GetOrientationV()), m_rad_h(c.GetOrientationH()),
+    m_fov_v(c.GetFOV_V()), m_fov_h(c.GetFOV_H()) { }
+
 Camera::~Camera() { }
 
 void Camera::DoTranslation(double x, double y, double z)

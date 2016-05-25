@@ -35,6 +35,7 @@ class Camera
         Camera();
         Camera(double x, double y, double z);
         Camera(double x, double y, double z, float v, float h);
+        Camera(Camera&);
         ~Camera();
 
         void DoTranslation(double x, double y, double z);
@@ -60,7 +61,7 @@ class Camera
 
     private:
         double m_pos_x, m_pos_y, m_pos_z;
-        float m_rad_v, m_rad_h;     //should be in radian, (0, 0) means focus on Ox axis
+        double m_rad_v, m_rad_h;     //should be in radian, (0, 0) means focus on Ox axis
         float m_fov_v, m_fov_h;                  //for zoom(high values), dezoom (low values)
 };
 
