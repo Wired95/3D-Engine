@@ -432,7 +432,7 @@ include(CPack)
 
 # Add `make dist' target if FREETYPE_DIST is set (which is the default)
 if (NOT DEFINED FREETYPE_NO_DIST)
-  add_custom_target(dist COMMAND ${CMAKE_MAKE_PROGRAM} package_source)
+  #add_custom_target(dist COMMAND ${CMAKE_MAKE_PROGRAM} package_source)
 endif ()
 
 # eof

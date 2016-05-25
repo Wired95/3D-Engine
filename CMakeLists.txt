@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 2.8)
 
 set(EXECUTABLE_OUTPUT_PATH bin/${CMAKE_BUILD_TYPE})
 
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin/${CMAKE_BUILD_TYPE})
+
 file(GLOB_RECURSE source_files src/* )
 
 add_executable(3DEngine ${source_files})
