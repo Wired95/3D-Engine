@@ -56,6 +56,7 @@ struct Point {
     Point &operator=(const Vector &);
     void operator+=(Vector const& a);
     Point::Point(double _x = 0, double _y = 0, double _z = 0) : x(_x), y(_y), z(_z) {}
+    Point::Point(Vector vect) : x(vect.x), y(vect.y), z(vect.z) {}
 };
 
 inline Point fill_coord_3D(double x, double y, double z) { Point a; a.x = x; a.y = y; a.z = z; return a; }

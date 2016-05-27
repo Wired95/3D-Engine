@@ -27,7 +27,8 @@
 #include "../Miscellaneous/Structures.h"
 #include "../Camera/Camera.h"
 
-#define LOG_TRACE
+/* This option active log in console => WARNING : can slow the program around 1000% */
+//#define LOG_TRACE
 
 // * * * * * *
 // This is where the magic oppers
@@ -52,11 +53,17 @@ public:
     /* Use this for handle camera moves */
     Camera* GetCam() { return m_cam; }
 
+    //disp cam location and orientation + fps
+    void DispEngineInfo(Uint32 fps = -1);
+
     /* Misc 3D Drawing items */
     void DrawWorldLine(Point a, Point b, Uint32 color);
     void DrawXYZpoint(); //TODO
     void DrawPolynomZInFunctionOfXZ(double coef_x, float pow_x, double coef_y, float pow_y, double add_on_coord_x, double add_on_coord_y, double add_on_coord_z, double range_x, double range_y, float res, Uint32 color);
     void DrawHalfSphere(double _x, double _y, double _z, double radius, double range_x, double range_y, float res, Uint32 color);
+
+    void DrawColouredCube(double x, double y, double z, double border);
+    void DrawColouredCube(Point o, double border) { DrawColouredCube(o.x, o.y, o.z, border); }
 
 private:
 

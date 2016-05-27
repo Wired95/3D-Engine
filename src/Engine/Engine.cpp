@@ -22,6 +22,10 @@
 
 #include "Engine.h"
 
+#ifdef WIN32
+#define sprintf sprintf_s
+#endif
+
 Engine::Engine(Uint32 w, Uint32 h, Camera _cam)
 {
     m_cam = new Camera(_cam);
@@ -36,8 +40,23 @@ Engine::~Engine()
 
 void Engine::UpdateEngine()
 {
+    m_Dscreen->fill_screen(black);
     FindScreenPoint();
     FindPlanParameters();
+}
+
+void Engine::DispEngineInfo(Uint32 fps)
+{
+    char info[500];
+    if (fps == -1)
+        sprintf(info, "Cam Coord(X:%lf Y:%lf Z:%lf Ov:%lf Oh:%lf)", m_cam->GetCoordX(), m_cam->GetCoordY(), m_cam->GetCoordZ(), (m_cam->GetOrientationV() * 360) / (2 * M_PI), (m_cam->GetOrientationH() * 360) / (2 * M_PI));
+    else sprintf(info, "Cam Coord(X:%lf Y:%lf Z:%lf Ov:%lf Oh:%lf) FPS: %d", m_cam->GetCoordX(), m_cam->GetCoordY(), m_cam->GetCoordZ(), (m_cam->GetOrientationV() * 360) / (2 * M_PI), (m_cam->GetOrientationH() * 360) / (2 * M_PI), fps);
+
+#ifdef LOG_TRACE
+    printf("FPS : %d\n", fps);
+#endif
+
+    m_Dscreen->disp_txt(info, 12, fill_coord_2D(2, 15), white, FONT_VERDANA, false);
 }
 
 /* * * * * * Engine Core * * * * * */
@@ -200,3 +219,29 @@ void Engine::DrawHalfSphere(double _x, double _y, double _z, double radius, doub
                 m_Dscreen->draw_pix(WorldCoordToScreenCoord(pt.point), color);
         }
 }
+
+void Engine::DrawColouredCube(double x, double y, double z, double border)
+{
+    Point o(x, y, z);
+    Vector u(border / 2, 0, 0), v(0, border / 2, 0), w(0, 0, border / 2);
+
+    DrawWorldLine((u + v + w) + o, ((0 - u) + v + w) + o, red);
+    DrawWorldLine(((0 - u) + v + w) + o, ((0 - u) +  (0 - v) + w) + o, red);
+    DrawWorldLine(((0 - u) + (0 - v) + w) + o, (u + (0 - v) + w) + o, red);
+    DrawWorldLine((u + (0 - v) + w) + o, (u + v + w) + o, red);
+
+    DrawWorldLine((u + v + w) + o, (u + v + (0 - w)) + o, green);
+    DrawWorldLine(((0 - u) + v + w) + o, ((0 - u) + v + (0 - w)) + o, green);
+    DrawWorldLine(((0 - u) + (0 - v) + w) + o, ((0 - u) + (0 - v) + (0 - w)) + o, green);
+    DrawWorldLine((u + (0 - v) + w) + o, (u + (0 - v) + (0 - w)) + o, green);
+
+    DrawWorldLine((u + v + (0 - w)) + o, ((0 - u) + v + (0 - w)) + o, blue);
+    DrawWorldLine(((0 - u) + v + (0 - w)) + o, ((0 - u) + (0 - v) + (0 - w)) + o, blue);
+    DrawWorldLine(((0 - u) + (0 - v) + (0 - w)) + o, (u + (0 - v) + (0 - w)) + o, blue);
+    DrawWorldLine((u + (0 - v) + (0 - w)) + o, (u + v + (0 - w)) + o, blue);
+
+#ifdef LOG_TRACE
+    printf("Draw cube on : (%lf, %lf, %lf), size : %lf\n", x, y, z, border);
+#endif
+}
+
