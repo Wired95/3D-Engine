@@ -32,6 +32,7 @@
 /* * * * * 2D point * * * * */
 struct pt {
     int x, y;
+    pt::pt(int _x = 0, int _y = 0) : x(_x), y(_y) {}
 };
 
 inline pt fill_coord_2D(int x, int y) { pt a; a.x = x, a.y = y; return a; }
@@ -75,7 +76,8 @@ struct Intersection
     Intersection::Intersection(double x, double y, double z, bool _behind) : point(fill_coord_3D(x, y, z)), behind(_behind) {}
 };
 
-struct Polygon { std::vector<Point> coords; bool filled = true; };  //base closed surfaces, should be 
+struct Polygon { std::vector<Point> coords; bool filled = true; };  //base closed surfaces, should be
+Point Bar(std::vector<Point> List);
 
 /* * * * * Others Functions * * * * */
 inline int min(int i, int j) { return i < j ? i : j; }

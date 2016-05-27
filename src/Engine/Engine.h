@@ -27,6 +27,8 @@
 #include "../Miscellaneous/Structures.h"
 #include "../Camera/Camera.h"
 
+#define LOG_TRACE
+
 // * * * * * *
 // This is where the magic oppers
 // 1 Engine = 1 screen = 1 World = 1 Panel of Drawing tools
@@ -48,30 +50,37 @@ public:
     void UpdateEngine();
 
     /* Use this for handle camera moves */
-    Camera* GetCam() { return cam; }
+    Camera* GetCam() { return m_cam; }
 
     /* Misc 3D Drawing items */
-    void DrawWorldLine(Point a, Point b, Point Plan[4], double Parameters[4], Point cam, Draws screen, Uint32 color);
-    void drawXYZpoint(); //TODO
-    void DrawPolynomZInFunctionOfXZ(double coef_x, float pow_x, double coef_y, float pow_y, double add_on_coord_x, double add_on_coord_y, double add_on_coord_z, double range_x, double range_y, float res, Point Plan[4], double Parameters[4], Point cam, Draws screen, Uint32 color);
-    void DrawHalfSphere(double _x, double _y, double _z, double radius, double range_x, double range_y, float res, Point Plan[4], double Parameters[4], Point cam, Draws screen, Uint32 color);
+    void DrawWorldLine(Point a, Point b, Uint32 color);
+    void DrawXYZpoint(); //TODO
+    void DrawPolynomZInFunctionOfXZ(double coef_x, float pow_x, double coef_y, float pow_y, double add_on_coord_x, double add_on_coord_y, double add_on_coord_z, double range_x, double range_y, float res, Uint32 color);
+    void DrawHalfSphere(double _x, double _y, double _z, double radius, double range_x, double range_y, float res, Uint32 color);
 
 private:
 
-    Point* FindScreenPoint(Camera cam, double W, double H); //UpdateEngine
-    static double* init_planParameters(Point Screen[4]);    //UpdateEngine
+    void FindScreenPoint();         //UpdateEngine sub-method
+    void FindPlanParameters();      //UpdateEngine sub-method
 
-    //if behind = true : the point is the point behind the screen, not the "intersection"
-    Intersection PointIntersectionFromWorld(/* double Parameters[4], Point cam, */Point gamma);
+    /* if behind = true : the point is the point behind the screen, not the "intersection" */
+    /* this function find the intersection between a world point, the cam and the screen plan */
+    Intersection PointIntersectionFromWorld(Point gamma);
+    /* this function find the intersection between two world point and the screen plan */
+    Intersection PointIntersectionFromWorld(Point alpha, Point beta);
 
-    Intersection* FindFinalIntersection(Intersection a, Intersection b/*, double Parameters[4]*/);
-    pt WorldCoordToScreenCoord(Point Plan[4], Point point);
+    /* finalize the segment render : don't erase a segment if one point is behind the screen => find new intersection between */
+    /* the tho points of the segment and the screen. Final intersection may be this intersection and the point in front of screen */
+    Intersection *FindFinalIntersection(Intersection a, Intersection b);
 
-    Camera *cam;
-    Draws *screen;
+    /* convert a 3D point on world screen to 2D screen coord */
+    pt WorldCoordToScreenCoord(Point point);
 
-    Point Screen[4];
-    double Parameters[4];
+    Camera *m_cam;      //The Engine camera
+    Draws *m_Dscreen;   //The render screen
+
+    Point m_screen[4];          //screen extremums points in 3D world
+    double m_parameters[4];     //screen cartesian parameters : ax+by+cz+d=0
 };
 
 #endif

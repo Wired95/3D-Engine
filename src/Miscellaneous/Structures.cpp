@@ -67,3 +67,5 @@ Vector ConvertCylynderCoords(double r, double h, double v)
     double m = r*cos(v);
     return fill_vect_3D(m*cos(h), m*sin(h), r*sin(v));
 }
+
+Point Bar(std::vector<Point> List) { return Point(0, 0, 0); } //TODO

@@ -22,6 +22,10 @@
 
 #include "Draws.h"
 
+#ifdef WIN32 
+#define sprintf sprintf_s
+#endif
+
 size_t Draws::count = 1;
 
 Draws::Draws(int w, int h) : WIDTH(w), HEIGHT(h), m_auto_disp(true)
@@ -40,6 +44,7 @@ Draws::Draws(int w, int h) : WIDTH(w), HEIGHT(h), m_auto_disp(true)
         exit(1);
     }
     count++;
+    m_auto_disp = true;
     UpdateWindow();
 }
 
